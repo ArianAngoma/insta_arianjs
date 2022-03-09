@@ -1,7 +1,7 @@
 export const resolvers = {
   Query: {
     // User
-    getUser: () => {
+    user: () => {
       console.log('User');
       return null;
     },

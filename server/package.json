@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon src/app.ts --ext ts,graphql",
     "build": "tsc -p ."
   },
   "devDependencies": {
@@ -21,6 +21,8 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^7.3.4",
+    "@graphql-tools/load": "^7.5.2",
     "apollo-server": "^3.6.3",
     "dotenv": "^16.0.0",
     "graphql": "^16.3.0",

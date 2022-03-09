@@ -1,0 +1,17 @@
+type Query {
+    user: User!
+}
+
+type User {
+    id: ID!
+    name: String!
+    username: String!
+    email: String!
+    avatar: String
+    web: String
+    description: String
+    password: String!
+    createdAt: String!
+    updatedAt: String!
+}
+
