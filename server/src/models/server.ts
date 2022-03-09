@@ -1,16 +1,7 @@
 import {ApolloServer} from 'apollo-server';
-import {loadSchemaSync} from '@graphql-tools/load';
-import {GraphQLFileLoader} from '@graphql-tools/graphql-file-loader';
-
-import {join} from 'path';
 
 import {dbConnection} from '../database/config';
-import {resolvers} from '../graphql/resolver';
-
-const typeDefs = loadSchemaSync(
-    join(__dirname, '../graphql/schema.graphql'),
-    {loaders: [new GraphQLFileLoader()]},
-);
+import {Mutation, Query, typeDefs} from '../graphql';
 
 export class Server {
   private readonly apolloServer: ApolloServer;
@@ -20,7 +11,10 @@ export class Server {
     this.connectDB();
     this.apolloServer = new ApolloServer({
       typeDefs,
-      resolvers,
+      resolvers: {
+        Query,
+        Mutation,
+      },
     });
     this.port = process.env.PORT || '4000';
   }

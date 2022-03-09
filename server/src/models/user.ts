@@ -1,8 +1,8 @@
-import {Schema} from 'mongoose';
+import {model, Schema} from 'mongoose';
 
-import {User} from '../interfaces/user';
+import {IUser} from '../interfaces/user';
 
-const UserSchema = new Schema<User>({
+const UserSchema = new Schema<IUser>({
   name: {
     type: String,
     required: true,
@@ -40,3 +40,15 @@ const UserSchema = new Schema<User>({
 }, {
   timestamps: true,
 });
+
+UserSchema.methods.toJSON = function() {
+  const {
+    __v,
+    _id,
+    ...user
+  } = this.toObject();
+  user.id = _id;
+  return user;
+};
+
+export default model<IUser>('User', UserSchema);

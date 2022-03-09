@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
   id: string;
   name: string;
   username: string;
@@ -10,3 +10,5 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
+
+export type CreateUserInput = Omit<IUser, 'id' | 'avatar' | 'web' | 'description' | 'createdAt' | 'updatedAt'>
