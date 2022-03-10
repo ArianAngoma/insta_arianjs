@@ -1,25 +1,19 @@
+import bcryptjs from 'bcryptjs';
+
 import {CreateUserInput, IUser} from '../interfaces/user';
 
-import User from '../models/user';
+import {createUser, findUserByUsernameOrEmail} from '../entities/user';
 
-export const createUser = async (data: CreateUserInput): Promise<IUser> => {
-  try {
-    const user = new User({...data});
-    await user.save();
+export const register = async (input: CreateUserInput): Promise<IUser> => {
+  input.email = input.email.toLowerCase();
+  input.username = input.username.toLowerCase();
+  const {email, username} = input;
 
-    return user;
-  } catch (e) {
-    console.log(e);
-    throw new Error('Server Error');
-  }
+  const salt = bcryptjs.genSaltSync();
+  input.password = bcryptjs.hashSync(input.password, salt);
+
+  const user = await findUserByUsernameOrEmail({email, username});
+  if (user) throw new Error('Authentication Error');
+
+  return await createUser(input);
 };
-
-export const findUserByUsernameOrEmail = async ({
-  email,
-  username,
-}: { email?: string, username?: string }): Promise<IUser | null> => User.findOne({
-  $or: [
-    {email},
-    {username},
-  ],
-});
