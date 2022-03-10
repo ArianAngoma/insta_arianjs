@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts --ext ts,graphql",
-    "build": "tsc -p ."
+    "build": "tsc -p server"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
