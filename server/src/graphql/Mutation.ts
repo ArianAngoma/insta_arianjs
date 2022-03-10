@@ -1,4 +1,5 @@
 import {AuthenticationError} from 'apollo-server';
+import bcryptjs from 'bcryptjs';
 
 import {CreateUserInput} from '../interfaces/user';
 
@@ -10,6 +11,9 @@ export const Mutation = {
     input.email = input.email.toLowerCase();
     input.username = input.username.toLowerCase();
     const {email, username} = input;
+
+    const salt = bcryptjs.genSaltSync();
+    input.password = bcryptjs.hashSync(input.password, salt);
 
     const user = await findUserByUsernameOrEmail({email, username});
     if (user) throw new AuthenticationError('Authentication Error');
