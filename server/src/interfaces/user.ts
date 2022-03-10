@@ -11,4 +11,11 @@ export interface IUser {
   updatedAt: string;
 }
 
+export interface IUserAuth {
+  readonly user: IUser;
+  readonly token: string;
+}
+
 export type CreateUserInput = Omit<IUser, 'id' | 'avatar' | 'web' | 'description' | 'createdAt' | 'updatedAt'>
+
+export type LoginUserInput = Pick<IUser, 'email' | 'password'>

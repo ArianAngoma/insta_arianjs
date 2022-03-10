@@ -1,19 +1,46 @@
 import bcryptjs from 'bcryptjs';
 
-import {CreateUserInput, IUser} from '../interfaces/user';
+import {CreateUserInput, IUserAuth, LoginUserInput} from '../interfaces/user';
 
-import {createUser, findUserByUsernameOrEmail} from '../entities/user';
+import {
+  createUser,
+  findUserByEmail,
+  findUserByUsernameOrEmail,
+} from '../entities/user';
+import {generateToken} from '../helpers/jwt';
 
-export const register = async (input: CreateUserInput): Promise<IUser> => {
-  input.email = input.email.toLowerCase();
-  input.username = input.username.toLowerCase();
-  const {email, username} = input;
+export const register = async (data: CreateUserInput): Promise<IUserAuth> => {
+  data.email = data.email.toLowerCase();
+  data.username = data.username.toLowerCase();
+  const {email, username} = data;
 
   const salt = bcryptjs.genSaltSync();
-  input.password = bcryptjs.hashSync(input.password, salt);
+  data.password = bcryptjs.hashSync(data.password, salt);
 
-  const user = await findUserByUsernameOrEmail({email, username});
+  let user = await findUserByUsernameOrEmail({email, username});
   if (user) throw new Error('Authentication Error');
 
-  return await createUser(input);
+  user = await createUser(data);
+  const token = generateToken({id: user.id});
+
+  return {
+    user,
+    token,
+  };
+};
+
+export const login = async (data: LoginUserInput): Promise<IUserAuth> => {
+  data.email = data.email.toLowerCase();
+  const user = await findUserByEmail({email: data.email});
+  if (!user) throw new Error('Auth Error');
+
+  const validPassword = bcryptjs.compareSync(data.password, user.password);
+  if (!validPassword) throw new Error('Auth Error');
+
+  const token = generateToken({id: user.id});
+
+  return {
+    user,
+    token,
+  };
 };

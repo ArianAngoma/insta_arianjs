@@ -23,3 +23,5 @@ export const findUserByUsernameOrEmail = async ({
     {username},
   ],
 });
+
+export const findUserByEmail = async ({email}: { email: string }): Promise<IUser | null> => User.findOne({email});
