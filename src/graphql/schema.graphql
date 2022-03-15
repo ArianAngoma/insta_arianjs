@@ -6,6 +6,7 @@ type Mutation {
     # User
     register(input: UserInput): AuthPayload!
     login(input: LoginInput): AuthPayload!
+    renewToken: AuthPayload!
 }
 
 input UserInput {

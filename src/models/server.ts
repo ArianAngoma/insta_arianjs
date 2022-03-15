@@ -1,5 +1,6 @@
-import {ApolloServer} from 'apollo-server';
+import {ExpressContext} from 'apollo-server-express/dist/ApolloServer';
 
+import {ApolloServer} from 'apollo-server';
 import {dbConnection} from '../database/config';
 import {Mutation, Query, typeDefs} from '../graphql';
 
@@ -15,6 +16,7 @@ export class Server {
         Query,
         Mutation,
       },
+      context: async ({req}: ExpressContext) => ({req}),
     });
     this.port = process.env.PORT || '4000';
   }

@@ -39,3 +39,12 @@ export const findUserByEmail = async ({email}: { email: string }): Promise<IUser
     throw new Error('Server Error');
   }
 };
+
+export const findUserById = async (id: string): Promise<IUser | null> => {
+  try {
+    return await User.findById(id);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
