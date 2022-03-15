@@ -12,7 +12,6 @@ export const validateToken = (
     req: express.Request,
     requireAuth = true,
 ): string | void => {
-  console.log(req.headers);
   const token = req.headers.authorization;
 
   if (token) {
