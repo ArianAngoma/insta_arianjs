@@ -1,5 +1,5 @@
 type Query {
-    user: User!
+    getUser: User!
 }
 
 type Mutation {
@@ -34,7 +34,6 @@ type User {
     avatar: String
     web: String
     description: String
-    password: String!
     createdAt: String!
     updatedAt: String!
 }

@@ -1,12 +1,7 @@
-import express from 'express';
-
 import {CreateUserInput, IUserAuth, LoginUserInput} from '../interfaces/user';
+import {ICtx} from '../interfaces/apollo';
 
 import {login, register, renewToken} from '../controllers/user';
-
-interface ICtx {
-  req: express.Request;
-}
 
 export const Mutation = {
   // User
