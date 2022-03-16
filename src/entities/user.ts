@@ -1,4 +1,4 @@
-import {CreateUserInput, IUser} from '../interfaces/user';
+import {CreateUserInput, GetUserInput, IUser} from '../interfaces/user';
 
 import User from '../models/user';
 
@@ -25,8 +25,27 @@ export const findUserByUsernameOrEmail = async ({
         {username},
       ],
     });
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findUserByIdOrEmailOrUsername = async ({
+  id,
+  email,
+  username,
+}: GetUserInput): Promise<IUser | null> => {
+  try {
+    return await User.findOne({
+      $or: [
+        {_id: id},
+        {email},
+        {username},
+      ],
+    });
+  } catch (error) {
+    console.log(error);
     throw new Error('Server Error');
   }
 };

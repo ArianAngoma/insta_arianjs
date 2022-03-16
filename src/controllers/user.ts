@@ -3,6 +3,7 @@ import express from 'express';
 
 import {
   CreateUserInput,
+  GetUserInput,
   IUser,
   IUserAuth,
   LoginUserInput,
@@ -12,6 +13,7 @@ import {
   createUser,
   findUserByEmail,
   findUserById,
+  findUserByIdOrEmailOrUsername,
   findUserByUsernameOrEmail,
 } from '../entities/user';
 import {generateToken, validateToken} from '../helpers/jwt';
@@ -67,11 +69,14 @@ export const renewToken = async (req: express.Request): Promise<IUserAuth> => {
   };
 };
 
-export const getUser = async (req: express.Request): Promise<IUser> => {
-  const userId = validateToken(req, true);
-  if (!userId) throw new Error('Token inválido');
+export const getUser = async (req: express.Request, {
+  id,
+  email,
+  username,
+}: GetUserInput): Promise<IUser> => {
+  validateToken(req, true);
 
-  const user = await findUserById(userId);
+  const user = await findUserByIdOrEmailOrUsername({id, email, username});
   if (!user) throw new Error('Usuario no encontrado');
 
   return user;

@@ -19,3 +19,5 @@ export interface IUserAuth {
 export type CreateUserInput = Omit<IUser, 'id' | 'avatar' | 'web' | 'description' | 'createdAt' | 'updatedAt'>
 
 export type LoginUserInput = Pick<IUser, 'email' | 'password'>
+
+export type GetUserInput = Pick<IUser, 'id' | 'email' | 'username'>
