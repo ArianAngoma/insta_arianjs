@@ -5,7 +5,7 @@ import {
   CreateUserInput,
   GetUserInput,
   IUser,
-  IUserAuth,
+  IUserAuth, IUserAvatar,
   LoginUserInput,
 } from '../interfaces/user';
 
@@ -14,9 +14,10 @@ import {
   findUserByEmail,
   findUserById,
   findUserByIdOrEmailOrUsername,
-  findUserByUsernameOrEmail,
+  findUserByUsernameOrEmail, updateUserById,
 } from '../entities/user';
 import {generateToken, validateToken} from '../helpers/jwt';
+import {awsUploadImage} from '../utils/aws-upload-image';
 
 export const register = async (data: CreateUserInput): Promise<IUserAuth> => {
   data.email = data.email.toLowerCase();
@@ -80,4 +81,36 @@ export const getUser = async (req: express.Request, {
   if (!user) throw new Error('Usuario no encontrado');
 
   return user;
+};
+
+export const updateAvatar = async (
+    req: express.Request,
+    file: any,
+): Promise<IUserAvatar> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  // console.log(file);
+  const {createReadStream, mimetype} = await file;
+  const extensionFile = mimetype.split('/')[1];
+  const imageName = `avatar/${userId}.${extensionFile}`;
+  const fileData = createReadStream();
+
+  try {
+    const result = await awsUploadImage(fileData, imageName);
+    await updateUserById(userId, {avatar: result});
+
+    return {
+      status: true,
+      urlAvatar: result,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      urlAvatar: null,
+    };
+  }
 };

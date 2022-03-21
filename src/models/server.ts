@@ -1,8 +1,10 @@
+import express from 'express';
+import {ApolloServer} from 'apollo-server-express';
 import {ExpressContext} from 'apollo-server-express/dist/ApolloServer';
+import {graphqlUploadExpress, GraphQLUpload} from 'graphql-upload';
 
-import {ApolloServer} from 'apollo-server';
-import {dbConnection} from '../database/config';
 import {Mutation, Query, typeDefs} from '../graphql';
+import {dbConnection} from '../database/config';
 
 export class Server {
   private readonly apolloServer: ApolloServer;
@@ -15,6 +17,7 @@ export class Server {
       resolvers: {
         Query,
         Mutation,
+        Upload: GraphQLUpload,
       },
       context: async ({req}: ExpressContext) => ({req}),
     });
@@ -25,10 +28,14 @@ export class Server {
     await dbConnection();
   }
 
-  listen(): void {
-    this.apolloServer.listen({port: this.port})
-        .then(({url}: { url: string }) => {
-          return console.log(`Server running on ${url}`);
-        });
+  async listen(): Promise<void> {
+    await this.apolloServer.start();
+
+    const app = express();
+    app.use(graphqlUploadExpress());
+    this.apolloServer.applyMiddleware({app});
+
+    await new Promise<void>((r) => app.listen({port: this.port}, r));
+    console.log(`🚀 Server ready`);
   }
 }

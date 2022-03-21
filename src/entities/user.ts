@@ -1,4 +1,9 @@
-import {CreateUserInput, GetUserInput, IUser} from '../interfaces/user';
+import {
+  CreateUserInput,
+  GetUserInput,
+  IUser,
+  IUpdateUserInput,
+} from '../interfaces/user';
 
 import User from '../models/user';
 
@@ -50,7 +55,9 @@ export const findUserByIdOrEmailOrUsername = async ({
   }
 };
 
-export const findUserByEmail = async ({email}: { email: string }): Promise<IUser | null> => {
+export const findUserByEmail = async (
+    {email}: { email: string },
+): Promise<IUser | null> => {
   try {
     return await User.findOne({email});
   } catch (error) {
@@ -62,6 +69,18 @@ export const findUserByEmail = async ({email}: { email: string }): Promise<IUser
 export const findUserById = async (id: string): Promise<IUser | null> => {
   try {
     return await User.findById(id);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const updateUserById = async (
+    id: string,
+    data: IUpdateUserInput,
+): Promise<IUser | null> => {
+  try {
+    return await User.findByIdAndUpdate(id, {...data}, {new: true});
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');

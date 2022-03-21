@@ -1,7 +1,12 @@
-import {CreateUserInput, IUserAuth, LoginUserInput} from '../interfaces/user';
+import {
+  CreateUserInput,
+  IUserAuth,
+  IUserAvatar,
+  LoginUserInput,
+} from '../interfaces/user';
 import {ICtx} from '../interfaces/apollo';
 
-import {login, register, renewToken} from '../controllers/user';
+import {login, register, renewToken, updateAvatar} from '../controllers/user';
 
 export const Mutation = {
   // User
@@ -20,4 +25,10 @@ export const Mutation = {
       args: unknown,
       ctx: ICtx,
   ): Promise<IUserAuth> => renewToken(ctx.req),
+
+  updateAvatar: async (
+      parent: any,
+      {file}: { file: File },
+      ctx: ICtx,
+  ): Promise<IUserAvatar> => updateAvatar(ctx.req, file),
 };
