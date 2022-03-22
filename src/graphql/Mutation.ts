@@ -6,7 +6,13 @@ import {
 } from '../interfaces/user';
 import {ICtx} from '../interfaces/apollo';
 
-import {login, register, renewToken, updateAvatar} from '../controllers/user';
+import {
+  deleteAvatar,
+  login,
+  register,
+  renewToken,
+  updateAvatar,
+} from '../controllers/user';
 
 export const Mutation = {
   // User
@@ -31,4 +37,10 @@ export const Mutation = {
       {file}: { file: File },
       ctx: ICtx,
   ): Promise<IUserAvatar> => updateAvatar(ctx.req, file),
+
+  deleteAvatar: async (
+      parent: any,
+      args: unknown,
+      ctx: ICtx,
+  ): Promise<boolean> => deleteAvatar(ctx.req),
 };

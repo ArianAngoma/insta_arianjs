@@ -123,3 +123,26 @@ export const updateAvatar = async (
     };
   }
 };
+
+export const deleteAvatar = async (req: express.Request): Promise<boolean> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  try {
+    if (user.avatar) {
+      const imageIdArray = user.avatar.split('/');
+      const imageId = imageIdArray[imageIdArray.length - 1];
+      const imageName = `avatar/${imageId}`;
+      await awsRemoveImage(imageName);
+    }
+
+    await updateUserById(userId, {avatar: ''});
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

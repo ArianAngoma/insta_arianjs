@@ -11,6 +11,7 @@ export const typeDefs = gql`
         login(input: LoginInput): AuthPayload!
         renewToken: AuthPayload!
         updateAvatar(file: Upload!): UpdateAvatar!
+        deleteAvatar: Boolean!
     }
 
     scalar Upload
