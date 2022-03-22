@@ -30,3 +30,17 @@ export const awsUploadImage = async (
     throw new Error();
   }
 };
+
+export const awsRemoveImage = async (filePath: string): Promise<void> => {
+  const params: PutObjectRequest = {
+    Bucket: BUCKET_NAME,
+    Key: `${filePath}`,
+  };
+
+  try {
+    await s3.deleteObject(params).promise();
+  } catch (error) {
+    console.log(error);
+    throw new Error();
+  }
+};

@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import express from 'express';
+import {v4 as uuidv4} from 'uuid';
 
 import {
   CreateUserInput,
@@ -17,7 +18,7 @@ import {
   findUserByUsernameOrEmail, updateUserById,
 } from '../entities/user';
 import {generateToken, validateToken} from '../helpers/jwt';
-import {awsUploadImage} from '../utils/aws-upload-image';
+import {awsRemoveImage, awsUploadImage} from '../utils/aws-image';
 
 export const register = async (data: CreateUserInput): Promise<IUserAuth> => {
   data.email = data.email.toLowerCase();
@@ -93,13 +94,21 @@ export const updateAvatar = async (
   const user = await findUserById(userId);
   if (!user) throw new Error('Usuario no encontrado');
 
-  // console.log(file);
-  const {createReadStream, mimetype} = await file;
-  const extensionFile = mimetype.split('/')[1];
-  const imageName = `avatar/${userId}.${extensionFile}`;
-  const fileData = createReadStream();
-
   try {
+    // Removing image from s3
+    if (user.avatar) {
+      const imageIdArray = user.avatar.split('/');
+      const imageId = imageIdArray[imageIdArray.length - 1];
+      const imageName = `avatar/${imageId}`;
+      await awsRemoveImage(imageName);
+    }
+
+    // console.log(file);
+    const {createReadStream, mimetype} = await file;
+    const extensionFile = mimetype.split('/')[1];
+    const imageName = `avatar/${uuidv4()}.${extensionFile}`;
+    const fileData = createReadStream();
+
     const result = await awsUploadImage(fileData, imageName);
     await updateUserById(userId, {avatar: result});
 
