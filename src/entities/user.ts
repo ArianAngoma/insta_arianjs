@@ -2,7 +2,7 @@ import {
   CreateUserInput,
   GetUserInput,
   IUser,
-  IUpdateUserInput,
+  IUpdateUserInput, IFilterUserExcludingDocumentBySpecificField,
 } from '../interfaces/user';
 
 import User from '../models/user';
@@ -81,6 +81,27 @@ export const updateUserById = async (
 ): Promise<IUser | null> => {
   try {
     return await User.findByIdAndUpdate(id, {...data}, {new: true});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findUserExcludingDocumentBySpecificField = async (
+    filter: IFilterUserExcludingDocumentBySpecificField,
+    document: IFilterUserExcludingDocumentBySpecificField,
+): Promise<IUser[]> => {
+  try {
+    return await User.find({
+      $and: [
+        {
+          [document.field]: {$ne: document.value},
+        },
+        {
+          [filter.field]: filter.value,
+        },
+      ],
+    });
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');

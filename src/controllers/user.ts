@@ -15,7 +15,9 @@ import {
   findUserByEmail,
   findUserById,
   findUserByIdOrEmailOrUsername,
-  findUserByUsernameOrEmail, updateUserById,
+  findUserByUsernameOrEmail,
+  findUserExcludingDocumentBySpecificField,
+  updateUserById,
 } from '../entities/user';
 import {generateToken, validateToken} from '../helpers/jwt';
 import {awsRemoveImage, awsUploadImage} from '../utils/aws-image';
@@ -170,6 +172,13 @@ export const updateUser = async (
 
       await updateUserById(userId, {password: newPasswordCrypt});
     } else {
+      const user = await findUserExcludingDocumentBySpecificField(
+          {field: 'email', value: data.email},
+          {field: '_id', value: userId},
+      );
+
+      if (user.length) throw new Error('Email ya registrado');
+
       await updateUserById(userId, {...data});
     }
 

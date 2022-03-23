@@ -31,3 +31,8 @@ export interface IUserAvatar {
   status: boolean;
   urlAvatar: string | null;
 }
+
+export interface IFilterUserExcludingDocumentBySpecificField {
+  field: keyof Omit<IUser & { _id: string }, 'id'>;
+  value: any;
+}
