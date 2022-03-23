@@ -77,7 +77,7 @@ export const findUserById = async (id: string): Promise<IUser | null> => {
 
 export const updateUserById = async (
     id: string,
-    data: IUpdateUserInput,
+    data: IUpdateUserInput & { password?: string },
 ): Promise<IUser | null> => {
   try {
     return await User.findByIdAndUpdate(id, {...data}, {new: true});

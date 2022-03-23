@@ -1,5 +1,5 @@
 import {
-  CreateUserInput,
+  CreateUserInput, IUpdateUserInput,
   IUserAuth,
   IUserAvatar,
   LoginUserInput,
@@ -11,7 +11,7 @@ import {
   login,
   register,
   renewToken,
-  updateAvatar,
+  updateAvatar, updateUser,
 } from '../controllers/user';
 
 export const Mutation = {
@@ -43,4 +43,10 @@ export const Mutation = {
       args: unknown,
       ctx: ICtx,
   ): Promise<boolean> => deleteAvatar(ctx.req),
+
+  updateUser: async (
+      parent: any,
+      {input}: { input: IUpdateUserInput },
+      ctx: ICtx,
+  ): Promise<boolean> => updateUser(ctx.req, input),
 };

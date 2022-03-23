@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 
 import {
   CreateUserInput,
-  GetUserInput,
+  GetUserInput, IUpdateUserInput,
   IUser,
   IUserAuth, IUserAvatar,
   LoginUserInput,
@@ -140,6 +140,39 @@ export const deleteAvatar = async (req: express.Request): Promise<boolean> => {
     }
 
     await updateUserById(userId, {avatar: ''});
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const updateUser = async (
+    req: express.Request,
+    data: IUpdateUserInput,
+): Promise<boolean> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  try {
+    if (data.currentPassword && data.newPassword) {
+      const validPassword = bcryptjs.compareSync(
+          data.currentPassword,
+          user.password,
+      );
+      if (!validPassword) throw new Error('Contraseña incorrecta');
+
+      const salt = bcryptjs.genSaltSync();
+      const newPasswordCrypt = bcryptjs.hashSync(data.newPassword, salt);
+
+      await updateUserById(userId, {password: newPasswordCrypt});
+    } else {
+      await updateUserById(userId, {...data});
+    }
+
     return true;
   } catch (error) {
     console.log(error);

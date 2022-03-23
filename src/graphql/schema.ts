@@ -7,11 +7,12 @@ export const typeDefs = gql`
 
     type Mutation {
         # User
-        register(input: UserInput): AuthPayload!
-        login(input: LoginInput): AuthPayload!
+        register(input: UserInput!): AuthPayload!
+        login(input: LoginInput!): AuthPayload!
         renewToken: AuthPayload!
         updateAvatar(file: Upload!): UpdateAvatar!
         deleteAvatar: Boolean!
+        updateUser(input: updateUserInput!): Boolean!
     }
 
     scalar Upload
@@ -26,6 +27,15 @@ export const typeDefs = gql`
     input LoginInput {
         email: String!
         password: String!
+    }
+
+    input updateUserInput {
+        name: String
+        email: String
+        currentPassword: String
+        newPassword: String
+        web: String
+        description: String
     }
 
     type AuthPayload {
