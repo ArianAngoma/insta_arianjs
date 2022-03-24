@@ -6,6 +6,7 @@ import {
 } from '../interfaces/user';
 
 import User from '../models/user';
+import {search} from '../controllers/user';
 
 export const createUser = async (data: CreateUserInput): Promise<IUser> => {
   try {
@@ -69,6 +70,20 @@ export const findUserByEmail = async (
 export const findUserById = async (id: string): Promise<IUser | null> => {
   try {
     return await User.findById(id);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findUserByName = async (query: string): Promise<IUser[]> => {
+  try {
+    return await User.find({
+      name: {
+        $regex: query,
+        $options: 'i',
+      },
+    });
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');

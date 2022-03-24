@@ -14,7 +14,7 @@ import {
   createUser,
   findUserByEmail,
   findUserById,
-  findUserByIdOrEmailOrUsername,
+  findUserByIdOrEmailOrUsername, findUserByName,
   findUserByUsernameOrEmail,
   findUserExcludingDocumentBySpecificField,
   updateUserById,
@@ -84,6 +84,19 @@ export const getUser = async (req: express.Request, {
   if (!user) throw new Error('Usuario no encontrado');
 
   return user;
+};
+
+export const search = async (
+    req: express.Request,
+    query: string,
+): Promise<IUser[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  return await findUserByName(query);
 };
 
 export const updateAvatar = async (

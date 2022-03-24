@@ -22,6 +22,10 @@ export type LoginUserInput = Pick<IUser, 'email' | 'password'>
 
 export type GetUserInput = Pick<IUser, 'id' | 'email' | 'username'>
 
+export interface SearchUserInput {
+  query: string;
+}
+
 export interface IUpdateUserInput extends Omit<Partial<IUser>, 'id' | 'password' | 'createdAt' | 'updatedAt'> {
   currentPassword?: string;
   newPassword?: string;
