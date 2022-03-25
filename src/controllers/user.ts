@@ -96,6 +96,8 @@ export const search = async (
   const user = await findUserById(userId);
   if (!user) throw new Error('Usuario no encontrado');
 
+  if (!query) return [];
+
   return await findUserByName(query);
 };
 
