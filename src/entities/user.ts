@@ -6,7 +6,6 @@ import {
 } from '../interfaces/user';
 
 import User from '../models/user';
-import {search} from '../controllers/user';
 
 export const createUser = async (data: CreateUserInput): Promise<IUser> => {
   try {

@@ -2,8 +2,10 @@ import {Schema} from 'mongoose';
 
 export interface IFollow {
   id: string;
-  idUser: Schema.Types.ObjectId;
-  follow: Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId | string;
+  follow: Schema.Types.ObjectId | string;
   createdAt: string;
   updatedAt: string;
 }
+
+export type CreateFollowInput = Omit<IFollow, 'id' | 'createdAt' | 'updatedAt'>;

@@ -14,6 +14,9 @@ export const typeDefs = gql`
         updateAvatar(file: Upload!): UpdateAvatar!
         deleteAvatar: Boolean!
         updateUser(input: updateUserInput!): Boolean!
+        
+        # Follow
+        follow(username: String!): Boolean!
     }
 
     scalar Upload

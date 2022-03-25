@@ -13,6 +13,7 @@ import {
   renewToken,
   updateAvatar, updateUser,
 } from '../controllers/user';
+import {follow} from '../controllers/follow';
 
 export const Mutation = {
   // User
@@ -49,4 +50,11 @@ export const Mutation = {
       {input}: { input: IUpdateUserInput },
       ctx: ICtx,
   ): Promise<boolean> => updateUser(ctx.req, input),
+
+  // Follow
+  follow: async (
+      parent: any,
+      {username}: { username: string },
+      ctx: ICtx,
+  ): Promise<boolean> => follow(ctx.req, username),
 };

@@ -3,7 +3,7 @@ import {model, Schema} from 'mongoose';
 import {IFollow} from '../interfaces/follow';
 
 const FollowSchema = new Schema<IFollow>({
-  idUser: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
