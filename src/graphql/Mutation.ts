@@ -13,7 +13,7 @@ import {
   renewToken,
   updateAvatar, updateUser,
 } from '../controllers/user';
-import {follow} from '../controllers/follow';
+import {follow, unFollow} from '../controllers/follow';
 
 export const Mutation = {
   // User
@@ -57,4 +57,10 @@ export const Mutation = {
       {username}: { username: string },
       ctx: ICtx,
   ): Promise<boolean> => follow(ctx.req, username),
+
+  unFollow: async (
+      parent: any,
+      {username}: { username: string },
+      ctx: ICtx,
+  ): Promise<boolean> => unFollow(ctx.req, username),
 };

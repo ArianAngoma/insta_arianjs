@@ -7,7 +7,7 @@ export const typeDefs = gql`
         search(query: String): [User]!
 
         # Follow
-        isFollow(username: String!): Boolean
+        isFollow(username: String!): Boolean!
     }
 
     type Mutation {
@@ -21,6 +21,7 @@ export const typeDefs = gql`
 
         # Follow
         follow(username: String!): Boolean!
+        unFollow(username: String!): Boolean!
     }
 
     scalar Upload

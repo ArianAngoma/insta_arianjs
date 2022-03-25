@@ -9,8 +9,8 @@ export const createFollow = async (
     await follow.save();
 
     return follow;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
     throw new Error('Server Error');
   }
 };
@@ -26,3 +26,16 @@ export const findFollowByUserIdAndFollow = async (
     throw new Error('Server Error');
   }
 };
+
+export const deleteFollowByUserIdAndFollow = async (
+    userId: string,
+    followId: string,
+): Promise<IFollow | null> => {
+  try {
+    return await Follow.findOneAndDelete({userId, follow: followId});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
