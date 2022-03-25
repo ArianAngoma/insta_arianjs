@@ -2,8 +2,12 @@ import {gql} from 'apollo-server-express';
 
 export const typeDefs = gql`
     type Query {
+        # User
         getUser(id: ID, email: String, username: String): User!
         search(query: String): [User]!
+
+        # Follow
+        isFollow(username: String!): Boolean
     }
 
     type Mutation {
@@ -14,7 +18,7 @@ export const typeDefs = gql`
         updateAvatar(file: Upload!): UpdateAvatar!
         deleteAvatar: Boolean!
         updateUser(input: updateUserInput!): Boolean!
-        
+
         # Follow
         follow(username: String!): Boolean!
     }

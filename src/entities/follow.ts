@@ -14,3 +14,15 @@ export const createFollow = async (
     throw new Error('Server Error');
   }
 };
+
+export const findFollowByUserIdAndFollow = async (
+    userId: string,
+    followId: string,
+): Promise<IFollow[] | null> => {
+  try {
+    return await Follow.find({userId, follow: followId});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};

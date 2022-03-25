@@ -13,8 +13,8 @@ export const createUser = async (data: CreateUserInput): Promise<IUser> => {
     await user.save();
 
     return user;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
     throw new Error('Server Error');
   }
 };
