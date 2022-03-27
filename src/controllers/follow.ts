@@ -1,10 +1,12 @@
 import express from 'express';
 
+import {IFollow} from '../interfaces/follow';
+
 import {validateToken} from '../helpers/jwt';
 import {findUserById, findUserByUsernameOrEmail} from '../entities/user';
 import {
   createFollow, deleteFollowByUserIdAndFollow,
-  findFollowByUserIdAndFollow,
+  findFollowByUserIdAndFollow, findFollowsByFollowId,
 } from '../entities/follow';
 
 export const follow = async (
@@ -63,4 +65,24 @@ export const unFollow = async (
   const follow = await deleteFollowByUserIdAndFollow(userId, userToFollow.id);
 
   return !!follow;
+};
+
+export const getFollowers = async (
+    req: express.Request,
+    username: string,
+): Promise<IFollow[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  const userFollower = await findUserByUsernameOrEmail({username});
+  if (!userFollower) throw new Error('Usuario no encontrado');
+
+  const followers = await findFollowsByFollowId(userFollower.id);
+
+  for await (const data of followers) {
+    followers;
+  }
 };

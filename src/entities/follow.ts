@@ -18,7 +18,7 @@ export const createFollow = async (
 export const findFollowByUserIdAndFollow = async (
     userId: string,
     followId: string,
-): Promise<IFollow[] | null> => {
+): Promise<IFollow[]> => {
   try {
     return await Follow.find({userId, follow: followId});
   } catch (error) {
@@ -33,6 +33,17 @@ export const deleteFollowByUserIdAndFollow = async (
 ): Promise<IFollow | null> => {
   try {
     return await Follow.findOneAndDelete({userId, follow: followId});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findFollowsByFollowId = async (
+    followId: string,
+): Promise<IFollow[]> => {
+  try {
+    return await Follow.find({follow: followId}).populate('userId');
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');
