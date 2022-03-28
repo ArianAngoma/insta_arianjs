@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {IFollow} from '../interfaces/follow';
+import {IUser} from '../interfaces/user';
 
 import {validateToken} from '../helpers/jwt';
 import {findUserById, findUserByUsernameOrEmail} from '../entities/user';
@@ -70,7 +70,7 @@ export const unFollow = async (
 export const getFollowers = async (
     req: express.Request,
     username: string,
-): Promise<IFollow[]> => {
+): Promise<IUser[]> => {
   const userId = validateToken(req, true);
   if (!userId) throw new Error('Token inválido');
 
@@ -82,7 +82,11 @@ export const getFollowers = async (
 
   const followers = await findFollowsByFollowId(userFollower.id);
 
+  const followersList = [];
   for await (const data of followers) {
-    followers;
+    followersList.push(data.userId);
   }
+
+  // @ts-ignore
+  return followersList;
 };

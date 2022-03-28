@@ -1,9 +1,9 @@
-import {Schema} from 'mongoose';
+import {Types} from 'mongoose';
 
 export interface IFollow {
   id: string;
-  userId: Schema.Types.ObjectId | string;
-  follow: Schema.Types.ObjectId | string;
+  userId: Types.ObjectId | string;
+  follow: Types.ObjectId | string;
   createdAt: string;
   updatedAt: string;
 }
