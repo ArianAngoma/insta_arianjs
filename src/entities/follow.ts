@@ -1,5 +1,6 @@
 import {CreateFollowInput, IFollow} from '../interfaces/follow';
 import Follow from '../models/follow';
+import {getFollowing} from '../controllers/follow';
 
 export const createFollow = async (
     data: CreateFollowInput,
@@ -44,6 +45,17 @@ export const findFollowsByFollowId = async (
 ): Promise<IFollow[]> => {
   try {
     return await Follow.find({follow: followId}).populate('userId');
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findFollowingByUserId = async (
+    userId: string,
+): Promise<IFollow[]> => {
+  try {
+    return await Follow.find({userId}).populate('follow');
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');

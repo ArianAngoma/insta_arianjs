@@ -5,8 +5,11 @@ import {IUser} from '../interfaces/user';
 import {validateToken} from '../helpers/jwt';
 import {findUserById, findUserByUsernameOrEmail} from '../entities/user';
 import {
-  createFollow, deleteFollowByUserIdAndFollow,
-  findFollowByUserIdAndFollow, findFollowsByFollowId,
+  createFollow,
+  deleteFollowByUserIdAndFollow,
+  findFollowByUserIdAndFollow,
+  findFollowingByUserId,
+  findFollowsByFollowId,
 } from '../entities/follow';
 
 export const follow = async (
@@ -89,4 +92,28 @@ export const getFollowers = async (
 
   // @ts-ignore
   return followersList;
+};
+
+export const getFollowing = async (
+    req: express.Request,
+    username: string,
+): Promise<IUser[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  const userFollowing = await findUserByUsernameOrEmail({username});
+  if (!userFollowing) throw new Error('Usuario no encontrado');
+
+  const following = await findFollowingByUserId(userFollowing.id);
+
+  const followingList = [];
+  for await (const data of following) {
+    followingList.push(data.follow);
+  }
+
+  // @ts-ignore
+  return followingList;
 };

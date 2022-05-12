@@ -9,6 +9,7 @@ export const typeDefs = gql`
         # Follow
         isFollow(username: String!): Boolean!
         getFollowers(username:  String!): [User!]!
+        getFollowing(username: String!): [User!]!
     }
 
     type Mutation {

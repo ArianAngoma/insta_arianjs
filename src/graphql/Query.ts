@@ -3,7 +3,7 @@ import {ICtx} from '../interfaces/apollo';
 import {GetUserInput, IUser, SearchUserInput} from '../interfaces/user';
 
 import {getUser, search} from '../controllers/user';
-import {getFollowers, isFollow} from '../controllers/follow';
+import {getFollowers, getFollowing, isFollow} from '../controllers/follow';
 
 export const Query = {
   // User
@@ -31,4 +31,10 @@ export const Query = {
       {username}: { username: string },
       ctx: ICtx,
   ): Promise<IUser[]> => getFollowers(ctx.req, username),
+
+  getFollowing: async (
+      parent: any,
+      {username}: { username: string },
+      ctx: ICtx,
+  ): Promise<IUser[]> => getFollowing(ctx.req, username),
 };
