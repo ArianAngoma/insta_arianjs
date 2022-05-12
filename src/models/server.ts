@@ -36,6 +36,6 @@ export class Server {
     this.apolloServer.applyMiddleware({app});
 
     await new Promise<void>((r) => app.listen({port: this.port}, r));
-    console.log(`🚀 Server ready`);
+    console.log(`Server ready`);
   }
 }
