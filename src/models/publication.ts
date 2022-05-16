@@ -26,10 +26,10 @@ PublicationSchema.methods.toJSON = function() {
   const {
     __v,
     _id,
-    ...follow
+    ...publication
   } = this.toObject();
-  follow.id = _id;
-  return follow;
+  publication.id = _id;
+  return publication;
 };
 
 export default model<IPublication>('Publication', PublicationSchema);
