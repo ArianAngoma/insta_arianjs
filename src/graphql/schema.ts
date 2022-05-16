@@ -1,6 +1,36 @@
 import {gql} from 'apollo-server-express';
+import {GraphQLUpload} from 'graphql-upload';
 
-export const typeDefs = gql`
+import {UserDefs, UserQuery, UserMutation} from './user';
+import {FollowDefs, FollowQuery, FollowMutation} from './follow';
+
+const rootTypeDefs = gql`
+    type Query {
+        _: String
+    }
+
+    type Mutation {
+        _: String
+    }
+
+    scalar Upload
+`;
+
+export const typeDefs = [rootTypeDefs, UserDefs, FollowDefs];
+
+export const resolvers = {
+  Query: {
+    ...UserQuery,
+    ...FollowQuery,
+  },
+  Mutation: {
+    ...UserMutation,
+    ...FollowMutation,
+  },
+  Upload: GraphQLUpload,
+};
+
+/* export const typeDefs = gql`
     type Query {
         # User
         getUser(id: ID, email: String, username: String): User!
@@ -70,5 +100,5 @@ export const typeDefs = gql`
         status: Boolean!
         urlAvatar: String!
     }
-`;
+`; */
 

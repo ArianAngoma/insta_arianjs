@@ -1,22 +1,18 @@
 import {
   CreateUserInput, IUpdateUserInput,
-  IUserAuth,
-  IUserAvatar,
+  IUserAuth, IUserAvatar,
   LoginUserInput,
-} from '../interfaces/user';
-import {ICtx} from '../interfaces/apollo';
-
+} from '../../interfaces/user';
 import {
   deleteAvatar,
   login,
   register,
   renewToken,
   updateAvatar, updateUser,
-} from '../controllers/user';
-import {follow, unFollow} from '../controllers/follow';
+} from '../../controllers/user';
+import {ICtx} from '../../interfaces/apollo';
 
-export const Mutation = {
-  // User
+export const UserMutation = {
   register: async (
       parent: any,
       {input}: { input: CreateUserInput },
@@ -51,16 +47,4 @@ export const Mutation = {
       ctx: ICtx,
   ): Promise<boolean> => updateUser(ctx.req, input),
 
-  // Follow
-  follow: async (
-      parent: any,
-      {username}: { username: string },
-      ctx: ICtx,
-  ): Promise<boolean> => follow(ctx.req, username),
-
-  unFollow: async (
-      parent: any,
-      {username}: { username: string },
-      ctx: ICtx,
-  ): Promise<boolean> => unFollow(ctx.req, username),
 };

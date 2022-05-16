@@ -1,9 +1,9 @@
 import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import {ExpressContext} from 'apollo-server-express/dist/ApolloServer';
-import {graphqlUploadExpress, GraphQLUpload} from 'graphql-upload';
+import {graphqlUploadExpress} from 'graphql-upload';
 
-import {Mutation, Query, typeDefs} from '../graphql';
+import {typeDefs, resolvers} from '../graphql/schema';
 import {dbConnection} from '../database/config';
 
 export class Server {
@@ -14,11 +14,7 @@ export class Server {
     this.connectDB();
     this.apolloServer = new ApolloServer({
       typeDefs,
-      resolvers: {
-        Query,
-        Mutation,
-        Upload: GraphQLUpload,
-      },
+      resolvers,
       context: async ({req}: ExpressContext) => ({req}),
     });
     this.port = process.env.PORT || '4000';
