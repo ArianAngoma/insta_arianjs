@@ -3,6 +3,7 @@ import {
   IUserAuth, IUserAvatar,
   LoginUserInput,
 } from '../../interfaces/user';
+import {ICtx} from '../../interfaces/apollo';
 import {
   deleteAvatar,
   login,
@@ -10,7 +11,6 @@ import {
   renewToken,
   updateAvatar, updateUser,
 } from '../../controllers/user';
-import {ICtx} from '../../interfaces/apollo';
 
 export const UserMutation = {
   register: async (
@@ -46,5 +46,4 @@ export const UserMutation = {
       {input}: { input: IUpdateUserInput },
       ctx: ICtx,
   ): Promise<boolean> => updateUser(ctx.req, input),
-
 };

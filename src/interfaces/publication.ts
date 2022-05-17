@@ -8,3 +8,8 @@ export interface IPublication {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IPublish {
+  status: boolean;
+  urlFile: string;
+}

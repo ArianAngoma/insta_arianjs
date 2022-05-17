@@ -8,11 +8,7 @@ export const FollowDefs = gql`
     }
 
     extend type Mutation {
-        register(input: UserInput!): AuthPayload!
-        login(input: LoginInput!): AuthPayload!
-        renewToken: AuthPayload!
-        updateAvatar(file: Upload!): UpdateAvatar!
-        deleteAvatar: Boolean!
-        updateUser(input: updateUserInput!): Boolean!
+        follow(username: String!): Boolean!
+        unFollow(username: String!): Boolean!
     }
 `;

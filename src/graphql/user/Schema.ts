@@ -7,8 +7,12 @@ export const UserDefs = gql`
     }
 
     extend type Mutation {
-        follow(username: String!): Boolean!
-        unFollow(username: String!): Boolean!
+        register(input: UserInput!): AuthPayload!
+        login(input: LoginInput!): AuthPayload!
+        renewToken: AuthPayload!
+        updateAvatar(file: Upload!): UpdateAvatar!
+        deleteAvatar: Boolean!
+        updateUser(input: updateUserInput!): Boolean!
     }
 
     input UserInput {
