@@ -13,3 +13,9 @@ export interface IPublish {
   status: boolean;
   urlFile: string;
 }
+
+export interface ICreatePublication {
+  userId: Types.ObjectId | string;
+  file: string;
+  fileType: string;
+}

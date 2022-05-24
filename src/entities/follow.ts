@@ -1,6 +1,5 @@
 import {CreateFollowInput, IFollow} from '../interfaces/follow';
 import Follow from '../models/follow';
-import {getFollowing} from '../controllers/follow';
 
 export const createFollow = async (
     data: CreateFollowInput,

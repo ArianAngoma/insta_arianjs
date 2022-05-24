@@ -33,6 +33,7 @@ export const UserDefs = gql`
         currentPassword: String
         newPassword: String
         web: String
+        
         description: String
     }
 
