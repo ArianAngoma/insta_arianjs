@@ -14,3 +14,14 @@ export const createPublication = async (
     throw new Error('Server Error');
   }
 };
+
+export const findPublicationsByUserId = async (
+    userId: string,
+): Promise<IPublication[]> => {
+  try {
+    return await Publication.find({userId}).sort({createdAt: -1});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};

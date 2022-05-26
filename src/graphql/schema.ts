@@ -3,7 +3,11 @@ import {GraphQLUpload} from 'graphql-upload';
 
 import {UserDefs, UserQuery, UserMutation} from './user';
 import {FollowDefs, FollowQuery, FollowMutation} from './follow';
-import {PublicationDefs, PublicationMutation} from './publication';
+import {
+  PublicationDefs,
+  PublicationQuery,
+  PublicationMutation,
+} from './publication';
 
 const rootTypeDefs = gql`
     type Query {
@@ -23,6 +27,7 @@ export const resolvers = {
   Query: {
     ...UserQuery,
     ...FollowQuery,
+    ...PublicationQuery,
   },
   Mutation: {
     ...UserMutation,

@@ -1,14 +1,17 @@
 import express from 'express';
 import {v4 as uuidv4} from 'uuid';
 
-import {IPublish} from '../interfaces/publication';
+import {IPublication, IPublish} from '../interfaces/publication';
 
 import {validateToken} from '../helpers/jwt';
-import {findUserById} from '../entities/user';
 import {awsUploadImage} from '../utils/aws-image';
-import {createPublication} from '../entities/publication';
+import {findUserById, findUserByUsernameOrEmail} from '../entities/user';
+import {
+  createPublication,
+  findPublicationsByUserId,
+} from '../entities/publication';
 
-export const publish = async (
+export const publication = async (
     req: express.Request,
     file: any,
 ): Promise<IPublish> => {
@@ -43,4 +46,20 @@ export const publish = async (
       urlFile: 'Error al subir la imagen',
     };
   }
+};
+
+export const getPublications = async (
+    req: express.Request,
+    username: string,
+): Promise<IPublication[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  const userPublications = await findUserByUsernameOrEmail({username});
+  if (!userPublications) throw new Error('Usuario no encontrado');
+
+  return await findPublicationsByUserId(userPublications.id);
 };
