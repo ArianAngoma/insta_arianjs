@@ -1,0 +1,10 @@
+import {Types} from 'mongoose';
+
+export interface IComment {
+  id: string;
+  publicationId: Types.ObjectId | string;
+  userId: Types.ObjectId | string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
