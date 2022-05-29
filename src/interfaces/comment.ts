@@ -8,3 +8,7 @@ export interface IComment {
   createdAt: string;
   updatedAt: string;
 }
+
+export type ICreateCommentInput = Pick<IComment, 'publicationId' | 'comment'>
+
+export type ICreateComment = Pick<IComment, 'publicationId' | 'userId' | 'comment'>

@@ -8,6 +8,7 @@ import {
   PublicationQuery,
   PublicationMutation,
 } from './publication';
+import {CommentDefs, CommentMutation} from './comment';
 
 const rootTypeDefs = gql`
     type Query {
@@ -21,7 +22,13 @@ const rootTypeDefs = gql`
     scalar Upload
 `;
 
-export const typeDefs = [rootTypeDefs, UserDefs, FollowDefs, PublicationDefs];
+export const typeDefs = [
+  rootTypeDefs,
+  UserDefs,
+  FollowDefs,
+  PublicationDefs,
+  CommentDefs,
+];
 
 export const resolvers = {
   Query: {
@@ -33,6 +40,7 @@ export const resolvers = {
     ...UserMutation,
     ...FollowMutation,
     ...PublicationMutation,
+    ...CommentMutation,
   },
   Upload: GraphQLUpload,
 };
