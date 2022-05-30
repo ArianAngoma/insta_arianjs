@@ -14,3 +14,14 @@ export const createComment = async (
     throw new Error('Server Error');
   }
 };
+
+export const findCommentsByPublicationId = async (
+    publicationId: string,
+): Promise<IComment[]> => {
+  try {
+    return await Comment.find({publicationId});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};

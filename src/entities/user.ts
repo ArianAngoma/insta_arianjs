@@ -1,3 +1,5 @@
+import {Types} from 'mongoose';
+
 import {
   CreateUserInput,
   GetUserInput,
@@ -66,7 +68,7 @@ export const findUserByEmail = async (
   }
 };
 
-export const findUserById = async (id: string): Promise<IUser | null> => {
+export const findUserById = async (id: string | Types.ObjectId): Promise<IUser | null> => {
   try {
     return await User.findById(id);
   } catch (error) {

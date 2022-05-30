@@ -8,7 +8,7 @@ import {
   PublicationQuery,
   PublicationMutation,
 } from './publication';
-import {CommentDefs, CommentMutation} from './comment';
+import {CommentDefs, CommentMutation, CommentQuery, Comment} from './comment';
 
 const rootTypeDefs = gql`
     type Query {
@@ -31,10 +31,12 @@ export const typeDefs = [
 ];
 
 export const resolvers = {
+  Comment,
   Query: {
     ...UserQuery,
     ...FollowQuery,
     ...PublicationQuery,
+    ...CommentQuery,
   },
   Mutation: {
     ...UserMutation,
