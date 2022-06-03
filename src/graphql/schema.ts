@@ -1,14 +1,15 @@
 import {gql} from 'apollo-server-express';
 import {GraphQLUpload} from 'graphql-upload';
 
-import {UserDefs, UserQuery, UserMutation} from './user';
-import {FollowDefs, FollowQuery, FollowMutation} from './follow';
+import {UserDefs, UserMutation, UserQuery} from './user';
+import {FollowDefs, FollowMutation, FollowQuery} from './follow';
 import {
   PublicationDefs,
-  PublicationQuery,
   PublicationMutation,
+  PublicationQuery,
 } from './publication';
-import {CommentDefs, CommentMutation, CommentQuery, Comment} from './comment';
+import {Comment, CommentDefs, CommentMutation, CommentQuery} from './comment';
+import {LikeDefs, LikeMutation} from './like';
 
 const rootTypeDefs = gql`
     type Query {
@@ -28,6 +29,7 @@ export const typeDefs = [
   FollowDefs,
   PublicationDefs,
   CommentDefs,
+  LikeDefs,
 ];
 
 export const resolvers = {
@@ -43,6 +45,7 @@ export const resolvers = {
     ...FollowMutation,
     ...PublicationMutation,
     ...CommentMutation,
+    ...LikeMutation,
   },
   Upload: GraphQLUpload,
 };

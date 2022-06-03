@@ -7,3 +7,5 @@ export interface ILike {
   createdAt: string;
   updatedAt: string;
 }
+
+export type ICreateLike = Pick<ILike, 'publicationId' | 'userId'>;
