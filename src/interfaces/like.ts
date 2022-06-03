@@ -9,3 +9,7 @@ export interface ILike {
 }
 
 export type ICreateLike = Pick<ILike, 'publicationId' | 'userId'>;
+
+export type IDeleteLike = Pick<ILike, 'publicationId' | 'userId'>;
+
+export type IFindLike = Partial<ILike>;

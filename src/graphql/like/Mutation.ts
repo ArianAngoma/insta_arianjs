@@ -1,5 +1,5 @@
 import {ICtx} from '../../interfaces/apollo';
-import {addLike} from '../../controllers/like';
+import {addLike, deleteLike} from '../../controllers/like';
 
 export const LikeMutation = {
   addLike: async (
@@ -7,4 +7,10 @@ export const LikeMutation = {
       {publicationId}: { publicationId: string },
       ctx: ICtx,
   ): Promise<boolean> => addLike(ctx.req, publicationId),
+
+  deleteLike: async (
+      parent: any,
+      {publicationId}: { publicationId: string },
+      ctx: ICtx,
+  ): Promise<boolean> => deleteLike(ctx.req, publicationId),
 };
