@@ -36,3 +36,14 @@ export const findLike = async (
     throw new Error('Server Error');
   }
 };
+
+export const countLikeDocuments = async (
+    data: IFindLike,
+): Promise<number> => {
+  try {
+    return await Like.countDocuments({...data});
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
