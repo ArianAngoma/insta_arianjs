@@ -3,6 +3,7 @@ import {gql} from 'apollo-server-express';
 export const PublicationDefs = gql`
     extend type Query {
         getPublications(username: String!): [Publication!]!
+        getPublicationsFollowing: [Publication!]!
     }
 
     extend type Mutation {
@@ -16,7 +17,7 @@ export const PublicationDefs = gql`
 
     type Publication {
         id: ID!
-        userId: ID!
+        author: User!
         file: String!
         fileType: String!
         createdAt: String!

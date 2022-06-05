@@ -4,6 +4,7 @@ import {GraphQLUpload} from 'graphql-upload';
 import {UserDefs, UserMutation, UserQuery} from './user';
 import {FollowDefs, FollowMutation, FollowQuery} from './follow';
 import {
+  Publication,
   PublicationDefs,
   PublicationMutation,
   PublicationQuery,
@@ -34,6 +35,7 @@ export const typeDefs = [
 
 export const resolvers = {
   Comment,
+  Publication,
   Query: {
     ...UserQuery,
     ...FollowQuery,

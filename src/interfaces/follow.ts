@@ -9,3 +9,5 @@ export interface IFollow {
 }
 
 export type CreateFollowInput = Omit<IFollow, 'id' | 'createdAt' | 'updatedAt'>;
+
+export type IFindFollow = Partial<IFollow>

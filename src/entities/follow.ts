@@ -1,4 +1,4 @@
-import {CreateFollowInput, IFollow} from '../interfaces/follow';
+import {CreateFollowInput, IFindFollow, IFollow} from '../interfaces/follow';
 import Follow from '../models/follow';
 
 export const createFollow = async (
@@ -55,6 +55,17 @@ export const findFollowingByUserId = async (
 ): Promise<IFollow[]> => {
   try {
     return await Follow.find({userId}).populate('follow');
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findFollow = async (
+    data: IFindFollow,
+): Promise<IFollow[]> => {
+  try {
+    return await Follow.find({...data});
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');

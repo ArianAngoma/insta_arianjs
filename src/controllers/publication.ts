@@ -10,6 +10,7 @@ import {
   createPublication,
   findPublicationsByUserId,
 } from '../entities/publication';
+import {findFollow} from '../entities/follow';
 
 export const publication = async (
     req: express.Request,
@@ -62,4 +63,30 @@ export const getPublications = async (
   if (!userPublications) throw new Error('Usuario no encontrado');
 
   return await findPublicationsByUserId(userPublications.id);
+};
+
+export const getPublicationsFollowing = async (
+    req: express.Request,
+): Promise<IPublication[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  console.log(userId);
+
+  const follows = await findFollow({userId});
+
+  const publicationList: IPublication[] = [];
+
+  for await (const follow of follows) {
+    const publications = await findPublicationsByUserId(follow.follow);
+    publicationList.push(...publications);
+  }
+
+  return publicationList.sort((a, b) => {
+    // @ts-ignore
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 };
