@@ -74,8 +74,6 @@ export const getPublicationsFollowing = async (
   const user = await findUserById(userId);
   if (!user) throw new Error('Usuario no encontrado');
 
-  console.log(userId);
-
   const follows = await findFollow({userId});
 
   const publicationList: IPublication[] = [];

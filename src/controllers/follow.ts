@@ -3,7 +3,11 @@ import express from 'express';
 import {IUser} from '../interfaces/user';
 
 import {validateToken} from '../helpers/jwt';
-import {findUserById, findUserByUsernameOrEmail} from '../entities/user';
+import {
+  findUser,
+  findUserById,
+  findUserByUsernameOrEmail,
+} from '../entities/user';
 import {
   createFollow,
   deleteFollowByUserIdAndFollow,
@@ -116,4 +120,27 @@ export const getFollowing = async (
 
   // @ts-ignore
   return followingList;
+};
+
+export const getNotFollowing = async (
+    req: express.Request,
+): Promise<IUser[]> => {
+  const userId = validateToken(req, true);
+  if (!userId) throw new Error('Token inválido');
+
+  const user = await findUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  const usersList = await findUser({}, {limit: 50});
+
+  const arrayUsers: IUser[] = [];
+  for await (const item of usersList) {
+    const isFind = await findFollowByUserIdAndFollow(userId, item.id);
+    if (!isFind.length) {
+      if (item.id.toString() !== userId.toString()) {
+        arrayUsers.push(item);
+      }
+    }
+  }
+  return arrayUsers;
 };

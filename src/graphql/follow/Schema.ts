@@ -5,6 +5,7 @@ export const FollowDefs = gql`
         isFollow(username: String!): Boolean!
         getFollowers(username:  String!): [User!]!
         getFollowing(username: String!): [User!]!
+        getNotFollowing: [User!]
     }
 
     extend type Mutation {

@@ -1,6 +1,11 @@
 import {IUser} from '../../interfaces/user';
 import {ICtx} from '../../interfaces/apollo';
-import {getFollowers, getFollowing, isFollow} from '../../controllers/follow';
+import {
+  getFollowers,
+  getFollowing,
+  getNotFollowing,
+  isFollow,
+} from '../../controllers/follow';
 
 export const FollowQuery = {
   isFollow: async (
@@ -20,4 +25,10 @@ export const FollowQuery = {
       {username}: { username: string },
       ctx: ICtx,
   ): Promise<IUser[]> => getFollowing(ctx.req, username),
+
+  getNotFollowing: async (
+      parent: any,
+      args: any,
+      ctx: ICtx,
+  ): Promise<IUser[]> => getNotFollowing(ctx.req),
 };

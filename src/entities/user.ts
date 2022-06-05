@@ -68,7 +68,9 @@ export const findUserByEmail = async (
   }
 };
 
-export const findUserById = async (id: string | Types.ObjectId): Promise<IUser | null> => {
+export const findUserById = async (
+    id: string | Types.ObjectId,
+): Promise<IUser | null> => {
   try {
     return await User.findById(id);
   } catch (error) {
@@ -118,6 +120,51 @@ export const findUserExcludingDocumentBySpecificField = async (
         },
       ],
     });
+  } catch (error) {
+    console.log(error);
+    throw new Error('Server Error');
+  }
+};
+
+export const findUser = async (
+    filer: Partial<IUser>,
+    {limit, skip}: { limit?: number, skip?: number },
+): Promise<IUser[]> => {
+  try {
+    const filters: { [key: string]: any } = {};
+
+    if (filer.id) {
+      filters._id = filer.id;
+    }
+
+    if (filer.name) {
+      filters.name = {
+        $regex: filer.name,
+        $options: 'i',
+      };
+    }
+
+    if (filer.email) {
+      filters.email = filer.email;
+    }
+
+    if (filer.username) {
+      filters.username = filer.username;
+    }
+
+    if (limit) {
+      return await User.find(filters).limit(limit);
+    }
+
+    if (skip) {
+      return await User.find(filters).skip(skip);
+    }
+
+    if (limit && skip) {
+      return await User.find(filters).limit(limit).skip(skip);
+    }
+
+    return await User.find(filters);
   } catch (error) {
     console.log(error);
     throw new Error('Server Error');
